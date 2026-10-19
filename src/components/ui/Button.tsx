@@ -1,7 +1,9 @@
 import { cn } from "@/lib/utils";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   variant?: "primary" | "outline" | "ghost";
+  href?: string;
+  download?: boolean | string;
 }
 
 const base =
@@ -20,15 +22,21 @@ export default function Button({
   children,
   className,
   variant = "primary",
-  type = "button",
+  href,
   ...props
 }: ButtonProps) {
+  const classes = cn(base, variants[variant], className);
+
+  if (href !== undefined) {
+    return (
+      <a href={href} className={classes} {...props}>
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <button
-      type={type}
-      className={cn(base, variants[variant], className)}
-      {...props}
-    >
+    <button type="button" className={classes} {...props}>
       {children}
     </button>
   );

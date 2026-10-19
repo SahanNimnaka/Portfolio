@@ -186,6 +186,38 @@ body {
 }
 
 /* ==========================================================================
+   Hero background — static grid + restrained cyan wash (no motion)
+   ========================================================================== */
+
+.hero-grid {
+  background-image:
+    radial-gradient(
+      ellipse 50rem 28rem at 12% 8%,
+      var(--primary-soft),
+      transparent 70%
+    ),
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:
+    auto,
+    48px 48px,
+    48px 48px;
+  background-position: center;
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 55%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 55%,
+    transparent 100%
+  );
+}
+
+/* ==========================================================================
    Back-to-top button
    ========================================================================== */
 

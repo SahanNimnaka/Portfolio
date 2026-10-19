@@ -17,7 +17,7 @@ export default function Section({
     <section
       id={id}
       aria-label={ariaLabel}
-      className={cn("section scroll-mt-24", className)}
+      className={cn("section", className)}
     >
       {children}
     </section>
