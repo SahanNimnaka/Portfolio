@@ -10,7 +10,7 @@ export default function ThemeToggle() {
     return (
       <button
         aria-label="Toggle theme"
-        className="rounded-md border border-border bg-card p-2 text-foreground"
+        className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border-control bg-card text-foreground"
         disabled
       >
         <Sun className="h-5 w-5" aria-hidden="true" />
@@ -22,7 +22,7 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-      className="rounded-md border border-border bg-card p-2 text-foreground transition-colors hover:border-primary hover:text-primary"
+      className="press inline-flex h-11 w-11 items-center justify-center rounded-md border border-border-control bg-card text-foreground hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
     >
       {theme === "dark" ? (
         <Sun className="h-5 w-5" aria-hidden="true" />

@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import BackToTop from "@/components/ui/BackToTop";
 import CommandPalette from "@/components/ui/CommandPalette";
 import ThemeProvider from "@/components/providers/ThemeProvider";
+import { siteName, siteUrl } from "@/lib/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,29 +22,30 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Sahan Nimnaka | Software Engineer Portfolio",
+    default: "Sahan Nimnaka | Software Developer Portfolio",
     template: "%s | Sahan Nimnaka",
   },
   description:
-    "Software Engineer portfolio showcasing projects, skills, and experience in web, mobile, and software development.",
-  metadataBase: new URL("https://sahannimnaka.dev"),
+    "Portfolio of Sahan Nimnaka Pinnagaspitiya, a Computer Science undergraduate at APIIT building web, mobile, and backend projects.",
+  applicationName: siteName,
+  authors: [{ name: "Sahan Nimnaka Pinnagaspitiya" }],
+  creator: "Sahan Nimnaka Pinnagaspitiya",
+  publisher: "Sahan Nimnaka Pinnagaspitiya",
+  metadataBase: new URL(siteUrl),
   openGraph: {
-    title: "Sahan Nimnaka | Software Engineer Portfolio",
+    title: "Sahan Nimnaka | Software Developer Portfolio",
     description:
-      "Software Engineer portfolio showcasing projects, skills, and experience in web, mobile, and software development.",
+      "Portfolio of Sahan Nimnaka Pinnagaspitiya, a Computer Science undergraduate at APIIT building web, mobile, and backend projects.",
     type: "website",
     locale: "en_US",
-    url: "https://sahannimnaka.dev",
+    url: siteUrl,
+    siteName,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sahan Nimnaka | Software Engineer Portfolio",
+    title: "Sahan Nimnaka | Software Developer Portfolio",
     description:
-      "Software Engineer portfolio showcasing projects, skills, and experience in web, mobile, and software development.",
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Portfolio of Sahan Nimnaka Pinnagaspitiya, a Computer Science undergraduate at APIIT building web, mobile, and backend projects.",
   },
 };
 
@@ -76,6 +78,23 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
+          {/* Netlify Forms registration — server-rendered into every page's
+              static HTML so the build can detect it. Field names must stay in
+              sync with the contact form in src/sections/Contact.tsx. */}
+          <form
+            name="contact"
+            method="POST"
+            action="/"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            hidden
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            <input type="text" name="name" />
+            <input type="email" name="email" />
+            <textarea name="message" />
+            <input type="text" name="bot-field" />
+          </form>
           <BackToTop />
           <CommandPalette />
         </ThemeProvider>

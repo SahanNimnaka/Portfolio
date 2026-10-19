@@ -1,137 +1,226 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import Image from "next/image";
-import { ExternalLink } from "lucide-react";
+import {
+  ArrowRight,
+  Braces,
+  Check,
+  CupSoda,
+  ExternalLink,
+  MonitorSmartphone,
+  Stethoscope,
+  Wind,
+  type LucideIcon,
+} from "lucide-react";
 
+import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
+import GithubMark from "@/components/ui/GithubMark";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
-import { projects } from "@/data/projects";
+import { projects, type Project } from "@/data/projects";
+import { cn } from "@/lib/utils";
 
-const categories = ["All", "Web", "Mobile", "AI/ML", "IoT", "Desktop"] as const;
+const previewIcons: Record<string, LucideIcon> = {
+  "air-guard": Wind,
+  medisync: Stethoscope,
+  bubbleblizz: CupSoda,
+  portfolio: MonitorSmartphone,
+};
 
-export default function Projects() {
-  const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>("All");
-
-  const filteredProjects =
-    activeCategory === "All"
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+/**
+ * Media half of a project card. Uses a real screenshot when one exists;
+ * otherwise renders a clearly typographic preview (never a fake UI).
+ */
+function ProjectMedia({ project, featured }: { project: Project; featured: boolean }) {
+  const Icon = previewIcons[project.slug] ?? Braces;
 
   return (
-    <Section id="projects">
+    <div
+      className={cn(
+        "relative flex aspect-[16/9] items-center justify-center overflow-hidden border-b border-border bg-background",
+        featured && "lg:aspect-auto lg:h-full lg:border-b-0 lg:border-r",
+      )}
+    >
+      {project.image ? (
+        <Image
+          src={project.image}
+          alt={project.imageAlt ?? `${project.title} project screenshot`}
+          fill
+          loading="lazy"
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover transition-transform duration-base group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
+        />
+      ) : (
+        <div
+          aria-hidden="true"
+          className="flex h-full w-full flex-col items-center justify-center gap-3 px-6 text-center"
+        >
+          <div className="absolute inset-0 hero-grid opacity-60" />
+          <span className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-card text-primary transition-colors duration-fast group-hover:border-primary">
+            <Icon className="h-6 w-6" />
+          </span>
+          <p className="relative text-xl font-bold text-foreground">
+            {project.title}
+          </p>
+          <p className="relative font-mono text-label uppercase text-muted">
+            {project.technologies.slice(0, 3).join(" · ")}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ProjectContent({ project }: { project: Project }) {
+  return (
+    <div className="flex flex-1 flex-col p-6 md:p-7">
+      <p className="font-mono text-label uppercase text-primary">
+        {project.typeLabel}
+      </p>
+      <h3 className="mt-2 text-h3 text-foreground">{project.title}</h3>
+      <p className="mt-3 leading-relaxed text-muted">{project.description}</p>
+
+      <ul className="mt-5 space-y-2.5">
+        {project.features.map((feature) => (
+          <li key={feature} className="flex gap-2.5 text-sm text-muted">
+            <Check
+              aria-hidden="true"
+              className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+            />
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      <ul
+        aria-label={`${project.title} technologies`}
+        className="mt-5 flex flex-wrap gap-2"
+      >
+        {project.technologies.map((tech) => (
+          <li
+            key={tech}
+            className="rounded-full border border-border bg-background px-3 py-1 text-xs text-muted"
+          >
+            {tech}
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-auto flex flex-wrap gap-3 pt-6">
+        {project.caseStudy && (
+          <Button
+            href={`/projects/${project.slug}`}
+            variant="primary"
+            aria-label={`Read the ${project.title} case study`}
+            className="w-full px-4 py-3 text-xs sm:w-auto"
+          >
+            Read Case Study
+            <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+          </Button>
+        )}
+
+        <Button
+          href={project.repositoryUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="outline"
+          aria-label={`View the ${project.title} repository on GitHub (opens in a new tab)`}
+          className="w-full px-4 py-3 text-xs sm:w-auto"
+        >
+          <GithubMark className="h-4 w-4 fill-current" />
+          View Repository
+        </Button>
+
+        {project.demoUrl && (
+          <Button
+            href={project.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="ghost"
+            aria-label={`Open the ${project.title} live demo (opens in a new tab)`}
+            className="w-full px-4 py-3 text-xs sm:w-auto"
+          >
+            <ExternalLink aria-hidden="true" className="h-3.5 w-3.5" />
+            Live Demo
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function Projects() {
+  const reduce = useReducedMotion() ?? false;
+
+  // Reduced motion: animate straight to the visible state with zero duration.
+  const group: Variants = reduce
+    ? { show: { transition: { staggerChildren: 0 } } }
+    : {
+        hidden: {},
+        show: { transition: { staggerChildren: 0.08 } },
+      };
+
+  const card: Variants = reduce
+    ? { show: { opacity: 1, y: 0, transition: { duration: 0 } } }
+    : {
+        hidden: { opacity: 0, y: 16 },
+        show: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+        },
+      };
+
+  const gridProps = reduce
+    ? ({ initial: false, animate: "show" } as const)
+    : ({
+        initial: "hidden",
+        whileInView: "show",
+        viewport: { once: true, amount: 0.1 },
+      } as const);
+
+  return (
+    <Section id="projects" ariaLabel="Featured projects">
       <Container>
-        <SectionTitle eyebrow="Projects" title="Things I've Built" />
+        <SectionTitle
+          eyebrow="Projects"
+          title="Featured Projects"
+          description="A selection of my practical work — backend systems, web applications, and mobile development, each linked to its source repository."
+        />
 
-        <div className="flex flex-wrap gap-3 mb-10">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 rounded-full border transition-colors ${
-                activeCategory === category
-                  ? "bg-primary border-primary text-white"
-                  : "bg-card border-border text-muted hover:text-foreground"
-              }`}
-              aria-pressed={activeCategory === category}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              whileHover={{ y: -6 }}
-              className="bg-card border border-border rounded-2xl overflow-hidden hover:border-primary transition-colors group"
-            >
-              {/* Project Image */}
-              <div className="relative h-52 w-full overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} screenshot`}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-2xl font-semibold text-foreground">
-                    {project.title}
-                  </h3>
-                  <span className="text-xs px-2 py-1 rounded bg-background border border-border text-muted">
-                    {project.category}
-                  </span>
-                </div>
-
-                <p className="text-muted mb-5 line-clamp-2">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 rounded-full bg-background border border-border text-sm text-muted"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex gap-4 items-center">
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
-                    aria-label={`View ${project.title} on GitHub`}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
-                    GitHub
-                  </a>
-
-                  {project.demo && (
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
-                      aria-label={`View ${project.title} live demo`}
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Live Demo
-                    </a>
+        <motion.div
+          variants={group}
+          {...gridProps}
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {projects.map((project, index) => {
+            const featured = project.featured === true;
+            return (
+              <motion.div
+                key={project.id}
+                variants={card}
+                className={cn(
+                  featured && "md:col-span-2 lg:col-span-3",
+                  !featured &&
+                    index === projects.length - 1 &&
+                    "md:col-span-2 lg:col-span-1",
+                )}
+              >
+                <article
+                  className={cn(
+                    "card group flex h-full flex-col overflow-hidden transition-[transform,border-color] duration-fast ease-smooth hover:-translate-y-1 hover:border-primary focus-within:-translate-y-1 focus-within:border-primary motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0",
+                    featured && "lg:grid lg:grid-cols-2",
                   )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                >
+                  <ProjectMedia project={project} featured={featured} />
+                  <ProjectContent project={project} />
+                </article>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </Container>
     </Section>
   );

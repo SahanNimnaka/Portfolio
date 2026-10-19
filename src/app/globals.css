@@ -12,6 +12,9 @@
   --surface: #ffffff;
   --card: #ffffff;
   --border: #e2e8f0;
+  /* Stronger border for control outlines (inputs, icon buttons) — ≥3:1
+     against the input surface so the control boundary is perceivable. */
+  --border-control: #64748b;
   --foreground: #0f172a;
   --muted: #475569;
 
@@ -25,6 +28,7 @@
   /* Feedback */
   --ring: #0e7490;
   --success: #16a34a;
+  --danger: #dc2626;
 
   /* Shadows (raw values so they can vary by theme) */
   --shadow-card-raw: 0 1px 2px rgb(15 23 42 / 0.04);
@@ -40,6 +44,7 @@
   --surface: #0b1220;
   --card: #0f172a;
   --border: #1e293b;
+  --border-control: #64748b;
   --foreground: #f8fafc;
   --muted: #94a3b8;
 
@@ -51,6 +56,7 @@
 
   --ring: #22d3ee;
   --success: #4ade80;
+  --danger: #f87171;
 
   --shadow-card-raw: 0 1px 2px rgb(0 0 0 / 0.4);
   --shadow-overlay-raw: 0 16px 40px rgb(0 0 0 / 0.55);
@@ -62,6 +68,7 @@
   --color-surface: var(--surface);
   --color-card: var(--card);
   --color-border: var(--border);
+  --color-border-control: var(--border-control);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-primary: var(--primary);
@@ -71,6 +78,7 @@
   --color-secondary: var(--secondary);
   --color-ring: var(--ring);
   --color-success: var(--success);
+  --color-danger: var(--danger);
 
   /* Fonts — next/font exposes --font-inter / --font-jetbrains-mono */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -172,7 +180,6 @@ body {
 /* ==========================================================================
    Layout primitives
    ========================================================================== */
-
 .section {
   padding-block: var(--section-py);
   padding-inline: 1.5rem;
@@ -183,6 +190,41 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+}
+
+/* ==========================================================================
+   Interaction utilities
+   ========================================================================== */
+
+/* Tactile press feedback for buttons. Deliberately unlayered so its
+   transition-property list (colour + transform) is the single source for
+   interactive elements that use it — do not stack transition-colors on top.
+   Disabled under prefers-reduced-motion below. */
+.press {
+  transition:
+    color var(--duration-fast) var(--ease-smooth),
+    background-color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+.press:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Gentle panel entrance for form success/error states (CSS-only so it also
+   works without JS; frozen by the reduced-motion block below). */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fade-in var(--duration-base) var(--ease-smooth) both;
 }
 
 /* ==========================================================================
@@ -256,6 +298,10 @@ body {
   background: var(--primary-hover);
 }
 
+.back-to-top:active {
+  transform: translateY(0) scale(0.96);
+}
+
 /* ==========================================================================
    Reduced motion
    ========================================================================== */
@@ -270,5 +316,12 @@ body {
   }
   html {
     scroll-behavior: auto;
+  }
+  /* No press/hover displacement without motion */
+  .press:active:not(:disabled) {
+    transform: none;
+  }
+  .back-to-top:active {
+    transform: translateY(0);
   }
 }

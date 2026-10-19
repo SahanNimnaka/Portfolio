@@ -5,25 +5,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
-
-const education = [
-  {
-    degree: "BSc (Hons) Computer Science",
-    institution: "APIIT Sri Lanka",
-    awarding: "Awarded by Staffordshire University",
-    period: "2023 – Present",
-    description:
-      "Pursuing a BSc (Hons) in Computer Science with a focus on software engineering, web development, and modern software practices — building practical projects alongside my studies.",
-  },
-  {
-    degree: "G.C.E. Advanced Level",
-    institution: "Combined Mathematics Stream",
-    awarding: null,
-    period: "2022",
-    description:
-      "Completed Advanced Level studies with a strong foundation in mathematics and analytical problem solving.",
-  },
-];
+import { education } from "@/data/education";
 
 export default function Education() {
   const reduce = useReducedMotion() ?? false;
@@ -49,7 +31,7 @@ export default function Education() {
       } as const);
 
   return (
-    <Section id="education">
+    <Section id="education" ariaLabel="Education">
       <Container>
         <SectionTitle eyebrow="Education" title="Academic Background" />
 
@@ -65,7 +47,7 @@ export default function Education() {
           />
 
           {education.map((item) => (
-            <motion.li key={item.degree} variants={reveal} className="relative">
+            <motion.li key={item.id} variants={reveal} className="relative">
               {/* Timeline dot */}
               <span
                 aria-hidden="true"
@@ -85,9 +67,19 @@ export default function Education() {
                       </p>
                     )}
                   </div>
-                  <time className="mt-1 whitespace-nowrap font-mono text-label uppercase text-muted">
-                    {item.period}
-                  </time>
+
+                  <div className="flex flex-col items-start gap-2 sm:items-end">
+                    {item.period && (
+                      <span className="mt-1 whitespace-nowrap font-mono text-label uppercase text-muted">
+                        {item.period}
+                      </span>
+                    )}
+                    {item.status && (
+                      <span className="rounded-full border border-primary/40 bg-primary-soft px-2.5 py-0.5 text-xs font-medium text-primary">
+                        {item.status}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <p className="mt-4 leading-relaxed text-muted">

@@ -177,7 +177,7 @@ export default function Skills() {
       } as const);
 
   return (
-    <Section id="skills">
+    <Section id="skills" ariaLabel="Skills">
       <Container>
         <SectionTitle
           eyebrow="Skills"
@@ -210,7 +210,7 @@ export default function Skills() {
                 {items.map((tech) => (
                   <li
                     key={tech.name}
-                    className="group inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-sm text-muted transition duration-fast hover:-translate-y-0.5 hover:border-primary hover:text-foreground"
+                    className="group inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-sm text-muted transition duration-fast hover:-translate-y-0.5 hover:border-primary hover:text-foreground motion-reduce:hover:translate-y-0"
                   >
                     <TechGlyph tech={tech} />
                     <span>{tech.name}</span>

@@ -129,15 +129,15 @@ The exact organisation of pages, components, and assets is defined by the curren
 
 ### Prerequisites
 
-- Node.js compatible with the project's dependencies
+- Node.js 20.9 or newer
 - npm
 - Git
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/sahan721/portfolio.git
-cd portfolio
+git clone https://github.com/sahan721/Portfolio.git
+cd Portfolio
 ```
 
 ### 2. Install Dependencies
@@ -154,10 +154,18 @@ npm run dev
 
 Open the local address displayed in the terminal to view the portfolio.
 
-### 4. Build for Production
+### 4. Build and Verify
 
 ```bash
 npm run build
+npm run typecheck
+npm run smoke
+```
+
+Run all checks together with:
+
+```bash
+npm run verify
 ```
 
 ### 5. Run the Production Build
@@ -166,9 +174,35 @@ npm run build
 npm run start
 ```
 
-Check the scripts in `package.json` if the available commands differ.
+### Site URL for Metadata
 
-*These instructions follow the standard Next.js workflow and have not been independently verified against a fresh installation of this repository.*
+Canonical links, Open Graph URLs, the sitemap, and robots.txt are generated from `src/lib/site.ts`:
+
+- `NEXT_PUBLIC_SITE_URL` when set (use the final custom domain),
+- otherwise Netlify's automatically provided `URL` environment variable,
+- otherwise `http://localhost:3000` for local builds.
+
+No production domain is hardcoded. Set `NEXT_PUBLIC_SITE_URL` in Netlify if the site uses a custom domain.
+
+## Deployment (Netlify)
+
+`netlify.toml` is committed with:
+
+- build command `npm run build`,
+- publish directory `.next`,
+- the `@netlify/plugin-nextjs` plugin,
+- Node 22 plus conservative security and static-asset cache headers.
+
+Steps:
+
+1. Push this repository to GitHub.
+2. In Netlify, choose **Add new site → Import an existing project** and select the repository.
+3. Netlify reads `netlify.toml`; confirm the build settings above and deploy.
+4. Optionally set `NEXT_PUBLIC_SITE_URL` under **Site configuration → Environment variables** to the production URL, then redeploy.
+5. Enable Netlify Forms and configure a notification address so the contact form delivers messages.
+6. To publish a résumé, add a valid `public/resume.pdf` and set `resumePath` in `src/data/contact.ts`. The committed PDF is damaged, so it is deliberately unlinked.
+
+Deployment has not been performed from this environment. The live URL and any custom domain must be confirmed in Netlify.
 
 ## 📱 Responsive Design & User Experience
 
@@ -193,19 +227,19 @@ The portfolio can serve as a central directory for my software development work.
 
 An IoT and environmental-data project combining sensor readings, backend services, database storage, and an AI prediction component.
 
-Repository: [Air Guard](https://github.com/sahan721/air_guard-_back)
+Repository: [Air Guard](https://github.com/sahan721/air_guard)
 
 ### MediSync — Hospital Staff Management System
 
 A Laravel-based application focused on hospital staff administration, attendance-related workflows, shift management, and supporting administrative features.
 
-Repository: [MediSync](https://github.com/sahan721/medisync2.3)
+Repository: [MediSync](https://github.com/sahan721/medisync)
 
 ### BubbleBlizz — Beverage Ordering Application
 
-A Flutter mobile application project for beverage ordering.
+A native Android beverage-ordering app built with Kotlin and Jetpack Compose.
 
-Repository: [BubbleBlizz](https://github.com/sahan721/BubbleBlizzApp-flutter-)
+Repository: [BubbleBlizz](https://github.com/sahan721/BubbleBlizz-test)
 
 *Project descriptions are summaries. Feature completeness and live deployment should be verified before presenting them as fully operational products.*
 
@@ -247,9 +281,7 @@ No specific licence has been confirmed for this repository. Check the repository
 
 - **Developer:** Sahan Nimnaka
 - **GitHub:** [@sahan721](https://github.com/sahan721)
-- **Portfolio repository:** [github.com/sahan721/portfolio](https://github.com/sahan721/portfolio)
-
-Add the verified live portfolio URL and any professional contact links here.
+- **Portfolio repository:** [github.com/sahan721/Portfolio](https://github.com/sahan721/Portfolio)
 
 ---
 

@@ -1,24 +1,24 @@
-import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
-    <main className="pt-20 min-h-screen flex items-center">
+    <main
+      id="main"
+      className="flex min-h-[calc(100dvh-5rem)] items-center pt-20"
+    >
       <Container>
-        <div className="text-center max-w-2xl mx-auto">
-          <h1 className="text-6xl md:text-8xl font-bold mb-4 text-foreground">
+        <div className="mx-auto max-w-2xl text-center">
+          <h1 className="mb-4 text-6xl font-bold text-foreground md:text-8xl">
             404
           </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-foreground">
+          <h2 className="mb-6 text-2xl font-semibold text-foreground md:text-3xl">
             Page Not Found
           </h2>
-          <p className="text-muted mb-8">
+          <p className="mb-8 text-muted">
             The page you are looking for doesn&apos;t exist or has been moved.
           </p>
-          <Link href="/">
-            <Button>Go Back Home</Button>
-          </Link>
+          <Button href="/">Go Back Home</Button>
         </div>
       </Container>
     </main>

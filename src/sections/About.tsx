@@ -62,7 +62,7 @@ export default function About() {
       } as const);
 
   return (
-    <Section id="about">
+    <Section id="about" ariaLabel="About">
       <Container>
         <SectionTitle eyebrow="About Me" title="Get to know me" />
 

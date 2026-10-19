@@ -2,74 +2,91 @@ export type Project = {
   id: number;
   slug: string;
   title: string;
+  /** Small mono eyebrow describing the kind of project. */
+  typeLabel: string;
   description: string;
-  longDescription?: string;
-  image: string;
-  images?: string[];
+  /** Evidence-based feature bullets — keep to three per project. */
+  features: string[];
   technologies: string[];
-  category: "Web" | "Mobile" | "AI/ML" | "IoT" | "Desktop";
-  github: string;
-  demo?: string;
-  problem?: string;
-  contribution?: string;
-  challenges?: string;
-  status?: "Completed" | "In Progress" | "Archived";
-  role?: string;
+  repositoryUrl: string;
+  /** Only set when a working demo has been verified. */
+  demoUrl?: string;
+  image?: string;
+  imageAlt?: string;
+  featured?: boolean;
+  /** True when a detailed case study page exists at /projects/[slug]. */
+  caseStudy?: boolean;
 };
 
+/**
+ * All repository URLs, technologies, and descriptions below were verified
+ * against the live repositories' READMEs and metadata (October 2026).
+ * No demo URLs are listed because none of these repositories currently
+ * publishes a verified live deployment.
+ */
 export const projects: Project[] = [
   {
     id: 1,
-    slug: "medisync",
-    title: "MediSync",
+    slug: "air-guard",
+    title: "Air Guard",
+    typeLabel: "IoT Backend",
     description:
-      "Hospital staff attendance management system with QR attendance and role-based access control.",
-    longDescription:
-      "A web-based hospital staff attendance management system built to streamline attendance tracking using QR code scanning with role-based access control for administrators and staff.",
-    image: "/images/medisync.png",
-    technologies: ["Laravel", "MySQL", "Tailwind CSS", "Livewire"],
-    category: "Web",
-    github: "https://github.com/sahan721/medisync",
-    demo: "",
-    role: "Full Stack Developer",
-    status: "Completed",
-    problem: "Manual attendance tracking in healthcare settings is inefficient and error-prone.",
-    contribution: "Designed and implemented QR-based attendance tracking with role-based permissions.",
+      "An IoT backend for air-quality monitoring and prediction — syncing sensor readings from ThingSpeak into PostgreSQL, and exposing an Express API for devices, weather data, and AI-assisted predictions.",
+    features: [
+      "ThingSpeak sensor-data synchronisation with current and historical readings stored via Prisma",
+      "REST API for devices, sensor readings, weather information, and predictions",
+      "Scheduled jobs for data sync, weather updates, and a Python AI prediction component",
+    ],
+    technologies: ["Node.js", "Express", "TypeScript", "PostgreSQL", "Prisma", "Python"],
+    repositoryUrl: "https://github.com/sahan721/air_guard",
+    featured: true,
+    caseStudy: true,
   },
   {
     id: 2,
-    slug: "bubbleblizz",
-    title: "BubbleBlizz",
+    slug: "medisync",
+    title: "MediSync",
+    typeLabel: "Web Application",
     description:
-      "Mobile beverage ordering application with online ordering and user authentication.",
-    longDescription:
-      "A cross-platform mobile application for beverage ordering with user authentication and online ordering functionality.",
-    image: "/images/bubbleblizz1.png",
-    technologies: ["Flutter", "Laravel API", "MySQL"],
-    category: "Mobile",
-    github: "https://github.com/sahan721/BubbleBlizzApp-flutter-",
-    demo: "",
-    role: "Mobile Developer",
-    status: "Completed",
-    problem: "Need for streamlined mobile beverage ordering experience.",
-    contribution: "Developed Flutter mobile app integrating with Laravel API backend.",
+      "A hospital staff management system built with Laravel — covering staff records, QR-code attendance, shift scheduling, leave requests, and report exports through role-specific areas for administrators, sisters, and staff.",
+    features: [
+      "QR-code attendance workflows alongside staff and record administration",
+      "Shift scheduling with overtime handling and scheduled reminders",
+      "Leave-request workflows with PDF and spreadsheet report exports",
+    ],
+    technologies: ["Laravel", "PHP", "Livewire", "Tailwind CSS"],
+    repositoryUrl: "https://github.com/sahan721/medisync",
+    caseStudy: true,
   },
   {
     id: 3,
-    slug: "fixit",
-    title: "Fixit",
+    slug: "bubbleblizz",
+    title: "BubbleBlizz",
+    typeLabel: "Android Application",
     description:
-      "Digital platform connecting skilled workers with customers across Sri Lanka.",
-    longDescription:
-      "A digital marketplace platform connecting skilled service providers with customers across Sri Lanka, facilitating service discovery and booking.",
-    image: "/images/fixit.png",
-    technologies: ["React", "Laravel", "MySQL"],
-    category: "Web",
-    github: "https://github.com/sahan721/fixit",
-    demo: "",
-    role: "Full Stack Developer",
-    status: "Completed",
-    problem: "Difficulty connecting customers with verified skilled workers in Sri Lanka.",
-    contribution: "Built web platform for service provider discovery and customer requests.",
+      "A native Android beverage-ordering app built with Jetpack Compose — browse a drink catalogue, manage a cart and favourites, and move through a multi-step checkout flow.",
+    features: [
+      "Product catalogue with categories, detail screens, and in-app favourites",
+      "Cart management with quantity controls and calculated totals",
+      "Multi-step checkout for shipping, payment selection, and order review",
+    ],
+    technologies: ["Kotlin", "Jetpack Compose", "Material 3"],
+    repositoryUrl: "https://github.com/sahan721/BubbleBlizz-test",
+    caseStudy: true,
+  },
+  {
+    id: 4,
+    slug: "portfolio",
+    title: "Personal Portfolio",
+    typeLabel: "Portfolio Site",
+    description:
+      "My personal portfolio — a token-driven design system with dark and light themes, responsive layouts, and motion that respects reduced-motion preferences, built with Next.js and TypeScript.",
+    features: [
+      "Design system built on CSS custom-property tokens shared across every section",
+      "Dark and light themes with a no-flash theme script",
+      "Accessible, keyboard-friendly navigation with reduced-motion support",
+    ],
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    repositoryUrl: "https://github.com/sahan721/Portfolio",
   },
 ];

@@ -7,6 +7,7 @@ import { Download } from "lucide-react";
 
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
+import { contact } from "@/data/contact";
 
 const roles = [
   "Aspiring Full-Stack Developer",
@@ -23,7 +24,7 @@ const container: Variants = {
 };
 
 const item: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 1, y: 16 },
   show: {
     opacity: 1,
     y: 0,
@@ -88,6 +89,7 @@ export default function Hero() {
   return (
     <motion.section
       id="hero"
+      aria-label="Introduction"
       variants={container}
       initial={reduce ? false : "hidden"}
       animate="show"
@@ -145,27 +147,25 @@ export default function Hero() {
               className="mt-8 flex flex-wrap items-center gap-4"
             >
               <Button href="#projects">Explore My Projects</Button>
-              <Button
-                href="/resume.pdf"
-                variant="outline"
-                download
-              >
-                <Download className="h-4 w-4" aria-hidden="true" />
-                Download Résumé
-                <span className="sr-only"> (PDF)</span>
-              </Button>
+              {contact.resumePath && (
+                <Button href={contact.resumePath} variant="outline" download>
+                  <Download className="h-4 w-4" aria-hidden="true" />
+                  Download Résumé
+                  <span className="sr-only"> (PDF)</span>
+                </Button>
+              )}
             </motion.div>
 
             <motion.nav
               variants={item}
-              aria-label="Social links"
+              aria-label="Social profiles"
               className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3"
             >
               <a
-                href="https://github.com/sahan721"
+                href={contact.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-primary"
+                className="inline-flex items-center gap-2 py-1 text-sm font-medium text-muted transition-colors hover:text-primary"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -186,10 +186,10 @@ export default function Hero() {
               </a>
 
               <a
-                href="https://www.linkedin.com/in/sahan-pinnagaspitiya-931042325"
+                href={contact.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-primary"
+                className="inline-flex items-center gap-2 py-1 text-sm font-medium text-muted transition-colors hover:text-primary"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
