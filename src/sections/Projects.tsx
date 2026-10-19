@@ -8,8 +8,8 @@ import {
   Check,
   CupSoda,
   ExternalLink,
-  MonitorSmartphone,
   Stethoscope,
+  Waves,
   Wind,
   type LucideIcon,
 } from "lucide-react";
@@ -20,29 +20,24 @@ import GithubMark from "@/components/ui/GithubMark";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
 import { projects, type Project } from "@/data/projects";
-import { cn } from "@/lib/utils";
 
 const previewIcons: Record<string, LucideIcon> = {
   "air-guard": Wind,
   medisync: Stethoscope,
   bubbleblizz: CupSoda,
-  portfolio: MonitorSmartphone,
+  neptune: Waves,
 };
 
 /**
  * Media half of a project card. Uses a real screenshot when one exists;
  * otherwise renders a clearly typographic preview (never a fake UI).
+ * Every card renders the same 16:9 frame, so all projects read equally.
  */
-function ProjectMedia({ project, featured }: { project: Project; featured: boolean }) {
+function ProjectMedia({ project }: { project: Project }) {
   const Icon = previewIcons[project.slug] ?? Braces;
 
   return (
-    <div
-      className={cn(
-        "relative flex aspect-[16/9] items-center justify-center overflow-hidden border-b border-border bg-background",
-        featured && "lg:aspect-auto lg:h-full lg:border-b-0 lg:border-r",
-      )}
-    >
+    <div className="relative flex aspect-[16/9] items-center justify-center overflow-hidden border-b border-border bg-background">
       {project.image ? (
         <Image
           src={project.image}
@@ -193,33 +188,16 @@ export default function Projects() {
         <motion.div
           variants={group}
           {...gridProps}
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-6 md:grid-cols-2"
         >
-          {projects.map((project, index) => {
-            const featured = project.featured === true;
-            return (
-              <motion.div
-                key={project.id}
-                variants={card}
-                className={cn(
-                  featured && "md:col-span-2 lg:col-span-3",
-                  !featured &&
-                    index === projects.length - 1 &&
-                    "md:col-span-2 lg:col-span-1",
-                )}
-              >
-                <article
-                  className={cn(
-                    "card group flex h-full flex-col overflow-hidden transition-[transform,border-color] duration-fast ease-smooth hover:-translate-y-1 hover:border-primary focus-within:-translate-y-1 focus-within:border-primary motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0",
-                    featured && "lg:grid lg:grid-cols-2",
-                  )}
-                >
-                  <ProjectMedia project={project} featured={featured} />
-                  <ProjectContent project={project} />
-                </article>
-              </motion.div>
-            );
-          })}
+          {projects.map((project) => (
+            <motion.div key={project.id} variants={card}>
+              <article className="card group flex h-full flex-col overflow-hidden transition-[transform,border-color] duration-fast ease-smooth hover:-translate-y-1 hover:border-primary focus-within:-translate-y-1 focus-within:border-primary motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0">
+                <ProjectMedia project={project} />
+                <ProjectContent project={project} />
+              </article>
+            </motion.div>
+          ))}
         </motion.div>
       </Container>
     </Section>

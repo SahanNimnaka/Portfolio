@@ -185,7 +185,7 @@ try {
   const locations = [...sitemap.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) =>
     decode(match[1]),
   );
-  check("sitemap lists every route", locations.length === 4, `${locations.length} URLs`);
+  check("sitemap lists every route", locations.length === 5, `${locations.length} URLs`);
   check(
     "sitemap URLs are absolute",
     locations.every((location) => /^https?:\/\//.test(location)),

@@ -241,6 +241,14 @@ A native Android beverage-ordering app built with Kotlin and Jetpack Compose.
 
 Repository: [BubbleBlizz](https://github.com/sahan721/BubbleBlizz-test)
 
+### Neptune — Collection Management Dashboard
+
+A full-stack collection-management system pairing a React admin dashboard with a NestJS, Prisma, and PostgreSQL backend.
+
+Frontend: [Neptune](https://github.com/sahan721/neptune_front_done2)
+Backend: [neptune-backend](https://github.com/sahan721/neptune-backend)
+Live demo: [neptunefrontdone2.vercel.app](https://neptunefrontdone2.vercel.app)
+
 *Project descriptions are summaries. Feature completeness and live deployment should be verified before presenting them as fully operational products.*
 
 ## 🔧 Development & Maintenance
@@ -258,7 +266,7 @@ Potential maintenance activities include:
 
 Possible improvements to the portfolio include:
 
-- [ ] Add verified live-demo links for featured projects.
+- [ ] Add verified live-demo links for the remaining featured projects.
 - [ ] Include screenshots and visual demonstrations of completed work.
 - [ ] Add a verified downloadable CV.
 - [ ] Improve accessibility and keyboard navigation.

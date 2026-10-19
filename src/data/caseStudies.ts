@@ -426,6 +426,129 @@ export const caseStudies: CaseStudy[] = [
       "Add screenshots and a demonstration video",
     ],
   },
+  {
+    slug: "neptune",
+    title: "Neptune",
+    typeLabel: "Admin Dashboard",
+    tagline:
+      "A collection-management system — a React admin dashboard over a NestJS API with role-based access, request workflows, and PostgreSQL storage.",
+    roleLabel: "Main frontend contributor",
+    repositoryUrl: "https://github.com/sahan721/neptune_front_done2",
+    demoUrl: "https://neptunefrontdone2.vercel.app",
+    problem:
+      "Collection operations involve several roles working with the same records: administrators manage collectors, riders, vehicles, and daily assignments; collectors raise collection requests; riders complete them. Without one system those records drift apart. Neptune pairs a React admin dashboard with an API that decides what each role may do.",
+    overview: [
+      "Neptune is a full-stack collection-management system. Its React admin dashboard provides screens for collectors, riders, vehicles, daily assignments, and collection requests, with login, search, filtering, pagination, status badges, and shared table and modal components reused across every screen.",
+      "The project is split across two repositories: the React frontend linked above and a separate NestJS backend. The frontend README documents the intended features and notes that availability depends on the configured modules; the backend's behaviour is described in its implementation report and API handover document rather than a project README. This case study reflects those sources and the code as it exists — it makes no claim of production usage, measured results, or end-to-end operation, which was not verified from this environment.",
+    ],
+    goals: [
+      "Give administrators a dashboard for collection operations and monitoring",
+      "Authenticate users and enforce role-based access for admin, collector, and rider roles",
+      "Move collection requests through enforced status transitions with recorded timestamps",
+      "Manage collector, rider, vehicle, and daily-assignment records",
+      "Surface administrative reports and notification support",
+    ],
+    users:
+      "Administrators, collectors, and riders, each with their own permissions and application area, plus developers consuming the REST API.",
+    role: {
+      summary:
+        "Main contributor to the Neptune frontend repository (27 of 32 contributions) and a contributor to the backend repository (13 of 66 contributions), working with one other frontend contributor and one other backend contributor.",
+      contributions: [
+        "React and TypeScript admin dashboard built with Vite, organised into pages, layout, and shared components",
+        "Routing and authentication context connecting dashboard screens to the backend API",
+        "Shared interface components — data table, pagination, search, filters, modals, forms, and status badges",
+        "API client layer in src/lib/api.ts, used across the dashboard pages",
+        "Contributions to the NestJS backend alongside a second backend contributor",
+        "Repository documentation: the project README covering features, stack, architecture, and setup",
+      ],
+    },
+    stack: [
+      { area: "Frontend", items: ["React", "TypeScript", "Vite"] },
+      { area: "Interface", items: ["React Router", "lucide-react", "Custom CSS"] },
+      { area: "Backend", items: ["NestJS", "Node.js", "TypeScript"] },
+      { area: "Database", items: ["PostgreSQL", "Prisma ORM"] },
+      { area: "Security", items: ["JWT", "Passport", "Argon2"] },
+      { area: "Notifications", items: ["Web Push"] },
+      { area: "Testing", items: ["Jest", "Supertest"] },
+    ],
+    features: [
+      {
+        title: "Administrative dashboard",
+        description:
+          "Dashboard, leaderboard, and statistic views for monitoring collection operations.",
+      },
+      {
+        title: "Role-based authentication",
+        description:
+          "Sign-in with an auth context on the frontend and JWT guards separating admin, collector, and rider permissions on the API.",
+      },
+      {
+        title: "Collection request workflow",
+        description:
+          "Requests move through PENDING, ACCEPTED, COMPLETED, or CANCELLED states with the transitions enforced by the backend.",
+      },
+      {
+        title: "Record management",
+        description:
+          "Create, search, and review collector, rider, and vehicle records through dedicated pages and form modals.",
+      },
+      {
+        title: "Daily assignments",
+        description:
+          "Assignment records tied to a collector and a date, managed through list, form, and detail views.",
+      },
+      {
+        title: "Reusable interface components",
+        description:
+          "Shared data table, pagination, search bar, filters, modals, and status badges used across every screen.",
+      },
+      {
+        title: "Notifications",
+        description:
+          "Toast notifications in the dashboard alongside web-push subscriptions stored for users on the backend.",
+      },
+    ],
+    architecture: {
+      overview:
+        "The dashboard is a Vite-built React single-page application: routing leads to a page per resource, an auth context holds the session, and an API client in src/lib calls the backend. The NestJS side splits into admin, collector, rider, auth, and push modules behind JWT and role guards, reading and writing PostgreSQL through Prisma. The frontend README notes that feature availability depends on the configured modules, and the backend flow is documented rather than verified end to end.",
+      diagram: [
+        "React Admin Dashboard (Vite)",
+        "        |",
+        "        +---- Auth, Toast, and Layout Context",
+        "        v",
+        "API Client (src/lib/api.ts)",
+        "        |",
+        "        v",
+        "NestJS Backend",
+        "        |---- JWT Auth + Role Guards",
+        "        |---- Admin / Collector / Rider Modules",
+        "        |---- Web Push Service",
+        "        v",
+        "PostgreSQL via Prisma ORM",
+      ].join("\n"),
+      decisions: [
+        "React with TypeScript and Vite for the dashboard, with React Router handling navigation",
+        "A page-per-resource structure backed by shared components — table, pagination, search, filters, modals, and badges — instead of one-off screens",
+        "NestJS with controllers and services separated per domain: admin, collector, rider, auth, and push",
+        "JWT authentication with role guards, DTO validation, and Argon2 password hashing",
+        "PostgreSQL through Prisma, with enums for roles, statuses, and request states so invalid transitions are constrained in the data model",
+      ],
+    },
+    limitations: [
+      "The frontend README states that feature availability depends on the implemented and configured application modules",
+      "The backend repository's README is still the framework starter text; API behaviour is documented in an implementation report and handover document instead",
+      "End-to-end operation of the deployed dashboard with a live backend API was not verified from this environment",
+      "The frontend ships no automated tests; backend Jest and Supertest files exist, but their results were not reproduced here",
+      "No usage figures, user counts, or production deployment are claimed",
+    ],
+    futureWork: [
+      "Document the backend API in a project README with endpoints, payloads, and examples",
+      "Expand automated testing across API endpoints and dashboard flows",
+      "Strengthen accessibility and responsive design",
+      "Document deployment and environment configuration for both repositories",
+      "Add verified screenshots and a recording of the dashboard in use",
+    ],
+  },
 ];
 
 export const caseStudySections = [
