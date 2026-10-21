@@ -549,6 +549,132 @@ export const caseStudies: CaseStudy[] = [
       "Add verified screenshots and a recording of the dashboard in use",
     ],
   },
+  {
+    slug: "personal-ai-data-agent",
+    title: "Personal AI Data Agent",
+    typeLabel: "AI Data Platform",
+    tagline:
+      "An AI-assisted data-analysis platform — upload a CSV, profile and visualise it, query it through an agent, train ML models, and export the results.",
+    roleLabel: "Sole developer",
+    repositoryUrl: "https://github.com/SahanNimnaka/Personal-AI-Data-Agent",
+    demoUrl: "https://personal-ai-data-agent.vercel.app",
+    problem:
+      "Analysing a dataset usually means assembling a notebook, a charting library, a statistics script, and a separate model workflow. Personal AI Data Agent brings dataset profiling, statistics, interactive charts, anomaly detection, machine learning, and reporting into one interface, with a conversational agent that can invoke the supported analysis tools.",
+    overview: [
+      "Personal AI Data Agent is a full-stack data-analysis platform. A React dashboard uploads a CSV, shows a preview and column profile, then drives descriptive and grouped statistics, correlation analysis, IQR outlier detection, and Plotly charts. A machine-learning screen trains and compares baseline and scikit-learn models on a held-out split, and analyses can be exported as JSON, CSV, or printable HTML.",
+      "The FastAPI backend processes each request in memory and has no database: uploaded datasets and results are held in browser state and are lost between reloads. The agent is restricted to a fixed tool allowlist, uses a configurable OpenAI-compatible provider when a key is configured, and otherwise falls back to a deterministic rule-based mode. The live deployment uses Vercel Services to route /api/* to the backend and everything else to the static frontend, and its /api/health endpoint was checked for this case study.",
+    ],
+    goals: [
+      "Upload a CSV and understand its structure without writing code",
+      "Run descriptive, grouped, correlation, and outlier analysis",
+      "Generate interactive Plotly visualisations from the analysed data",
+      "Ask natural-language questions that call supported analysis tools",
+      "Train and compare machine-learning models, then export the results",
+    ],
+    users:
+      "People exploring tabular data — analysts, students, and developers — who want profiling, charts, and baseline machine learning from one interface. The repository describes the app as intended for personal or local use.",
+    role: {
+      summary:
+        "Sole contributor to the repository — I built the React dashboard, the FastAPI analysis services, the agent tooling and fallback, the machine-learning workflow, and the report exports.",
+      contributions: [
+        "React and TypeScript dashboard built with Vite and Tailwind CSS, covering upload, profiling, analysis, agent, ML, and report screens",
+        "FastAPI routes for datasets, analysis, visualisations, the agent, ML training, and reports",
+        "pandas, NumPy, and SciPy analysis services plus Plotly chart specifications rendered in the dashboard",
+        "Agent tool runner with a fixed allowlist, tool-call limits, and a deterministic offline fallback when no LLM key is configured",
+        "scikit-learn training and evaluation comparing baseline, linear or logistic regression, and random-forest models on a held-out split",
+        "JSON, CSV, and printable HTML report exports, with Pytest and Vitest tests for backend and frontend logic",
+      ],
+    },
+    stack: [
+      { area: "Frontend", items: ["React", "TypeScript", "Vite", "Tailwind CSS"] },
+      { area: "Backend", items: ["Python 3.13", "FastAPI", "Uvicorn"] },
+      { area: "Data & ML", items: ["pandas", "NumPy", "SciPy", "scikit-learn"] },
+      { area: "Visualisations", items: ["Plotly"] },
+      { area: "HTTP", items: ["HTTPX"] },
+      { area: "Testing", items: ["Pytest", "Vitest"] },
+      { area: "Deployment", items: ["Vercel Services"] },
+    ],
+    features: [
+      {
+        title: "Dataset exploration",
+        description:
+          "CSV upload with a preview and column profiling for data types, missing values, and summary information.",
+      },
+      {
+        title: "Descriptive and group analysis",
+        description:
+          "Descriptive statistics and group-by aggregation over the uploaded dataset.",
+      },
+      {
+        title: "Interactive visualisations",
+        description:
+          "Plotly bar, line, scatter, histogram, and box charts generated from the analysed data.",
+      },
+      {
+        title: "Correlations and outliers",
+        description:
+          "Pearson, Spearman, and Kendall correlations alongside IQR-based outlier detection.",
+      },
+      {
+        title: "AI data agent",
+        description:
+          "Natural-language questions that call a fixed allowlist of analysis tools, using a configurable LLM provider or a deterministic offline fallback.",
+      },
+      {
+        title: "Machine learning",
+        description:
+          "Regression and classification training with baseline, linear or logistic regression, and random-forest comparisons on a held-out split.",
+      },
+      {
+        title: "Reports and exports",
+        description:
+          "JSON, CSV, and printable HTML reports generated from the analyses that were run.",
+      },
+    ],
+    architecture: {
+      overview:
+        "A React single-page dashboard built with Vite calls a FastAPI service. In production, Vercel Services routes /api/* to the backend and every other path to the static frontend, so requests stay same-origin and no production API URL is needed. The backend's service layer handles profiling, analysis, anomaly detection, Plotly chart specifications, the agent, ML training, and report generation with pandas, NumPy, SciPy, scikit-learn, and Plotly. Uploaded CSVs are processed in memory per request, results live in browser state, and no database or persistence layer exists.",
+      diagram: [
+        "React + Vite Dashboard",
+        "        |",
+        "        |  same-origin /api/*",
+        "        v",
+        "FastAPI Backend",
+        "        |---- Dataset Profiling",
+        "        |---- Analysis + Anomaly Detection",
+        "        |---- Plotly Chart Specifications",
+        "        |---- AI Agent (LLM / Offline Fallback)",
+        "        |---- scikit-learn Training",
+        "        v",
+        "In-Memory Data (No Database)",
+        "        |",
+        "        v",
+        "JSON / CSV / HTML Reports",
+      ].join("\n"),
+      decisions: [
+        "React with TypeScript, Vite, and Tailwind CSS for a single-page dashboard that consumes a typed API client",
+        "A stateless FastAPI backend: datasets are processed in memory per request and results live in browser state, with no database",
+        "Single-origin Vercel Services deployment with /api rewrites, so the frontend needs no production API URL and cross-origin CORS is not required",
+        "An agent confined to a fixed tool allowlist with a 6-call, 3-round cap and a deterministic offline fallback when no LLM key is configured",
+        "Upload limits of 4 MB and 2000 columns enforced in both the backend and frontend, staying below Vercel's request-body limit",
+        "Server-generated Plotly specifications rendered by plotly.js in the dashboard, with Vitest coverage for the API and validation modules",
+      ],
+    },
+    limitations: [
+      "No authentication or rate limiting is implemented; the repository states the app is intended for personal or local use and flags unrestricted public access as unsafe",
+      "No persistence: uploaded datasets and results are held in memory and are lost on reload; database support is not implemented",
+      "The agent only uses a real LLM when LLM_API_KEY is configured; otherwise it relies on the deterministic offline fallback",
+      "Machine-learning metrics are computed on a held-out split and are unreliable on small datasets, per the repository",
+      "No usage figures, user counts, or performance benchmarks are published",
+    ],
+    futureWork: [
+      "Add authentication and rate limiting before unrestricted public deployment",
+      "Add optional persistence for datasets and saved analyses",
+      "Expand automated tests across agent and ML edge cases",
+      "Document the API with request and response examples",
+      "Broaden dataset-size limits with background processing",
+    ],
+  },
 ];
 
 export const caseStudySections = [

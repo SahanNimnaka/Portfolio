@@ -20,10 +20,10 @@ export type Project = {
 /**
  * All repository URLs, technologies, and descriptions below were verified
  * against the live repositories' code, READMEs, and metadata (October 2026).
- * The only demo URL listed is Neptune's, which was checked for a 200 response;
- * the other three repositories publish no verified live deployment.
+ * Neptune's and Personal AI Data Agent's demo URLs were each checked for a 200
+ * response; the other three repositories publish no verified live deployment.
  * Every entry keeps three feature bullets and a comparable description length
- * so the four cards read as equals.
+ * so the five cards read as equals.
  */
 export const projects: Project[] = [
   {
@@ -89,6 +89,23 @@ export const projects: Project[] = [
     technologies: ["React", "TypeScript", "Vite", "NestJS", "Prisma", "PostgreSQL"],
     repositoryUrl: "https://github.com/sahan721/neptune_front_done2",
     demoUrl: "https://neptunefrontdone2.vercel.app",
+    caseStudy: true,
+  },
+  {
+    id: 5,
+    slug: "personal-ai-data-agent",
+    title: "Personal AI Data Agent",
+    typeLabel: "AI Data Platform",
+    description:
+      "An AI-powered data analysis platform — upload CSV datasets, profile columns, generate interactive Plotly visualizations, detect anomalies, train machine-learning models, and export reports through a conversational agent.",
+    features: [
+      "CSV uploads with dataset previews, column profiling, data types, missing values, and summary information",
+      "Descriptive and grouped statistics, correlation analysis, IQR outlier detection, and interactive Plotly charts",
+      "Conversational AI agent with an offline fallback, scikit-learn model training, and JSON, CSV, or HTML exports",
+    ],
+    technologies: ["React", "TypeScript", "Python", "FastAPI", "Pandas", "scikit-learn", "Plotly"],
+    repositoryUrl: "https://github.com/SahanNimnaka/Personal-AI-Data-Agent",
+    demoUrl: "https://personal-ai-data-agent.vercel.app",
     caseStudy: true,
   },
 ];

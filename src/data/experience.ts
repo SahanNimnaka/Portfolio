@@ -82,4 +82,19 @@ export const experience: ExperienceEntry[] = [
     repositoryUrl: "https://github.com/sahan721/neptune_front_done2",
     caseStudyUrl: "/projects/neptune",
   },
+  {
+    id: "personal-ai-data-agent",
+    kind: "Personal project",
+    title: "Personal AI Data Agent",
+    subtitle: "AI-assisted CSV analysis and machine learning",
+    role: "Sole developer",
+    highlights: [
+      "Built the FastAPI analysis backend with pandas, NumPy, SciPy, scikit-learn, and Plotly",
+      "Built the React, TypeScript, Vite, and Tailwind dashboard for uploads, analysis, agent chat, ML, and reports",
+      "Added Pytest and Vitest tests plus a same-origin Vercel Services deployment",
+    ],
+    technologies: ["React", "TypeScript", "Python", "FastAPI", "pandas", "scikit-learn", "Plotly"],
+    repositoryUrl: "https://github.com/SahanNimnaka/Personal-AI-Data-Agent",
+    caseStudyUrl: "/projects/personal-ai-data-agent",
+  },
 ];

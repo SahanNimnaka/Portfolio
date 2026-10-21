@@ -4,6 +4,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import Image from "next/image";
 import {
   ArrowRight,
+  BrainCircuit,
   Braces,
   Check,
   CupSoda,
@@ -26,6 +27,7 @@ const previewIcons: Record<string, LucideIcon> = {
   medisync: Stethoscope,
   bubbleblizz: CupSoda,
   neptune: Waves,
+  "personal-ai-data-agent": BrainCircuit,
 };
 
 /**

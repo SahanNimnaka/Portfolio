@@ -249,6 +249,13 @@ Frontend: [Neptune](https://github.com/sahan721/neptune_front_done2)
 Backend: [neptune-backend](https://github.com/sahan721/neptune-backend)
 Live demo: [neptunefrontdone2.vercel.app](https://neptunefrontdone2.vercel.app)
 
+### Personal AI Data Agent — CSV Analysis & Machine Learning
+
+An AI-assisted data-analysis platform pairing a React and TypeScript dashboard with a Python FastAPI backend for dataset profiling, statistics, Plotly visualisations, anomaly detection, scikit-learn model training, and JSON, CSV, or HTML report exports.
+
+Repository: [Personal AI Data Agent](https://github.com/SahanNimnaka/Personal-AI-Data-Agent)
+Live demo: [personal-ai-data-agent.vercel.app](https://personal-ai-data-agent.vercel.app)
+
 *Project descriptions are summaries. Feature completeness and live deployment should be verified before presenting them as fully operational products.*
 
 ## 🔧 Development & Maintenance
